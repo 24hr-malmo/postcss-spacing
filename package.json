@@ -1,0 +1,14 @@
+{
+  "name": "postcss-spacing",
+  "version": "0.2.0",
+  "description": "Postcss plugin to add spacing properties as shortcuts ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Camilo Tapia <camilo.tapia@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "postcss": "^5.0.12"
+  }
+}
