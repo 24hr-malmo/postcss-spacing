@@ -11,8 +11,8 @@ function replace(decl, sizes, result) {
     var newValues = [];
     values.forEach(function(org) {
         var newValue = sizes[org];
-        if (!newValue) {
-            decl.warn(result, 'The size "' + decl.value + '" doesnt exist');
+        if (!newValue && checkSize(org)) {
+            decl.warn(result, 'The size "' + org + '" doesnt exist');
             newValue = org;
         }
         newValues.push(newValue);
