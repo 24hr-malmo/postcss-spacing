@@ -1,6 +1,6 @@
-import * as postcss from 'postcss';
+var postcss = require('postcss');
 
-export default postcss.plugin('postcss-spacing', (options = {}) => {
+module.exports = postcss.plugin('postcss-spacing', function() {
 
     var shortcuts = {
         pa: 'padding',
@@ -15,13 +15,13 @@ export default postcss.plugin('postcss-spacing', (options = {}) => {
         ml: 'margin-left'
     }
 
-    return css => {
+    return function(css) {
 
         var sizes = [];
         var querySizes = {};
         var queries = [];
 
-        css.walkAtRules(atrule => {
+        css.walkAtRules(function(atrule) {
             if (atrule.name === 'spacing') {
                 if (atrule.parent.name === 'media') {
                     queries.push(atrule.parent);
@@ -34,7 +34,7 @@ export default postcss.plugin('postcss-spacing', (options = {}) => {
         });
 
         var founds = [];
-        css.walkDecls(decl => {
+        css.walkDecls(function(decl) {
 
             if (shortcuts[decl.prop]) {
                 if (founds.indexOf(decl.parent) === -1) {
@@ -45,12 +45,14 @@ export default postcss.plugin('postcss-spacing', (options = {}) => {
         });
 
         if (founds.length > 0) {
-            founds.forEach((node) => {
-                queries.forEach(query => {
+            founds.forEach(function(node) {
+                queries.forEach(function(query) {
                     var props = [];
-                    node.nodes.forEach(decl => {
+                    node.nodes.forEach(function(decl) {
                         if (shortcuts[decl.prop]) {
-                            props.push({raws: {before: '\n', between: ': '}, type: 'decl', prop: delc.prop, value: delc.value});
+                            var index = parseInt(decl.value) - 1;
+                            var value = querySizes[query.params][index];
+                            props.push({raws: {before: '\n', between: ': '}, type: 'decl', prop: shortcuts[decl.prop], value: value});
                         }
                     });
                     query.append({selector: node.selector, type: 'rule', nodes: props});
@@ -58,9 +60,9 @@ export default postcss.plugin('postcss-spacing', (options = {}) => {
             }); 
         }
 
-        css.walkDecls(decl => {
+        css.walkDecls(function(decl) {
             if (shortcuts[decl.prop]) {
-                decl.prop = shortcuts[decl.props];
+                decl.prop = shortcuts[decl.prop];
                 decl.value = sizes[parseInt(decl.value) - 1];
             }
         });

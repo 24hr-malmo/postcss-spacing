@@ -1,0 +1,16 @@
+@spacing 1px, 2px, 3px;
+
+@media (min-width: 100px) {
+    @spacing 10px, 20px, 30px;
+}
+
+body {
+    pa: 1;
+    color: red;
+}
+
+#main {
+    mb: 1;
+}
+
+
