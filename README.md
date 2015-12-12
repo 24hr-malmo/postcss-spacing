@@ -54,6 +54,22 @@ Which will create the following CSS:
         }
     }
 
+## Properties
+
+The css properties are:
+
+    pa = padding
+    pt = padding-top
+    pb = padding-bottom
+    pl = padding-left
+    pr = padding-right
+
+    ma = margin
+    mt = margin-top
+    mb = margin-bottom
+    ml = margin-left
+    mr = margin-right
+
 ## How to use it
 
 ### Gulp
