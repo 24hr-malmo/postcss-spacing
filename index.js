@@ -1,19 +1,27 @@
 var postcss = require('postcss');
 
-module.exports = postcss.plugin('postcss-spacing', function() {
-
-    var shortcuts = {
-        pa: 'padding',
-        pt: 'padding-top',
-        pb: 'padding-bottom',
-        pl: 'padding-left',
-        pr: 'padding-right',
-        ma: 'margin',
-        mt: 'margin-top',
-        mb: 'margin-bottom',
-        mr: 'margin-rigth',
-        ml: 'margin-left'
+function checkSize(value) {
+    if (value.match(/s\d+/)) {
+        return value;
     }
+}
+
+function replace(decl, sizes, result) {
+    var values = decl.value.split(' ');
+    var newValues = [];
+    values.forEach(function(org) {
+        var newValue = sizes[org];
+        if (!newValue) {
+            decl.warn(result, 'The size "' + decl.value + '" doesnt exist');
+            newValue = org;
+        }
+        newValues.push(newValue);
+    });
+    return {raws: {before: '\n', between: ': '}, type: 'decl', prop: decl.prop, value: newValues.join(' ')};
+}
+
+
+module.exports = postcss.plugin('postcss-spacing', function() {
 
     return function(css, result) {
 
@@ -27,12 +35,12 @@ module.exports = postcss.plugin('postcss-spacing', function() {
                     queries.push(atrule.parent);
                     querySizes[atrule.parent.params] = {};
                     atrule.params.replace(/ /g, '').split(',').forEach(function(step, index) {
-                        querySizes[atrule.parent.params][(index + 1) + ''] = step;
+                        querySizes[atrule.parent.params]['s' + (index + 1)] = step;
                     });
 
                 } else {
                     atrule.params.replace(/ /g, '').split(',').forEach(function(step, index) {
-                        sizes[(index + 1) + ''] = step;
+                        sizes['s' + (index + 1)] = step;
                     });
                 }
                 atrule.remove();
@@ -42,7 +50,7 @@ module.exports = postcss.plugin('postcss-spacing', function() {
         var founds = [];
         css.walkDecls(function(decl) {
 
-            if (shortcuts[decl.prop]) {
+            if (checkSize(decl.value)) {
                 if (founds.indexOf(decl.parent) === -1) {
                     founds.push(decl.parent);
                 }
@@ -55,13 +63,9 @@ module.exports = postcss.plugin('postcss-spacing', function() {
                 queries.forEach(function(query) {
                     var props = [];
                     node.nodes.forEach(function(decl) {
-                        if (shortcuts[decl.prop]) {
-                            var value = querySizes[query.params][decl.value];
-                            if (!value) {
-                                decl.warn(result, 'The size "' + decl.value + '" doesnt exist');
-                            } else {
-                                props.push({raws: {before: '\n', between: ': '}, type: 'decl', prop: shortcuts[decl.prop], value: value});
-                            }
+                        if (checkSize(decl.value)) {
+                            var newProps = replace(decl, querySizes[query.params], result);
+                            props.push(newProps);
                         }
                     });
                     query.append({selector: node.selector, type: 'rule', nodes: props});
@@ -70,14 +74,9 @@ module.exports = postcss.plugin('postcss-spacing', function() {
         }
 
         css.walkDecls(function(decl) {
-            if (shortcuts[decl.prop]) {
-                decl.prop = shortcuts[decl.prop];
-                var value = sizes[decl.value];
-                if (!value) {
-                    decl.warn(result, 'The size "' + decl.value + '" doesnt exist');
-                } else {
-                    decl.value = value;
-                }
+            if (checkSize(decl.value)) {
+                var newProps = replace(decl, sizes, result);
+                decl.value = newProps.value;
             }
         });
 

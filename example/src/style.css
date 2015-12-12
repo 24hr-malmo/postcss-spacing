@@ -5,12 +5,17 @@
 }
 
 body {
-    pa: 1;
+    padding: s1;
     color: red;
 }
 
 #main {
-    mb: 1;
+    margin-bottom: s2;
+    padding: s1 s2 s3 s16;
 }
 
+.shadow-test {
+    box-shadow: s3 20px 1px red;
+    color: green;
+}
 

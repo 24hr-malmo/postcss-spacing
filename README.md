@@ -1,10 +1,10 @@
 # PostCSS Spacing
 
-PostCSS plugin for simpler control of all paddings and margins in your project. The original idea of having a global padding and margin setup was created by [Jens Nilsson](https://github.com/jensjns) when he created it as classes in [stylus](https://learnboost.github.io/stylus/). 
+[PostCSS](https://github.com/postcss/postcss) plugin for simpler control of all paddings and margins in your project. The original idea of having a global padding and margin setup was created by [Jens Nilsson](https://github.com/jensjns) when he created it as classes in [stylus](https://learnboost.github.io/stylus/). 
 
-This plugin uses the same idea but implements it as custom CSS properties. You basically have a shortened version of all paddings and margins properties and define what each size will correspond to. 
+This plugin uses the same idea but implements it as custom CSS values. You basically just use a new unit (size) which will be replaced by the sized defined in a settings statment.
 
-Its much easier to understand in code:
+It's much easier to understand in code:
 
 First we define what each margin and padding step will correspond to:
 
@@ -13,8 +13,8 @@ First we define what each margin and padding step will correspond to:
 Then we can use it in our css:
 
     #main {
-        pa: 1;
-        mt: 3;
+        padding: s1;
+        margin-top: s3;
     }
 
 Which will create the following CSS:
@@ -31,8 +31,8 @@ The other benefit is that media queries can be used to change all paddings and m
     @spacing 1rem, 2rem, 4rem, 8rem;
 
     #main {
-        pa: 1;
-        mt: 3;
+        padding: s1;
+        margin-top: s3;
     }
 
     @media (min-width: 100px) {
@@ -53,22 +53,6 @@ Which will create the following CSS:
             margin-top: 80px;
         }
     }
-
-## Properties
-
-The css properties are:
-
-    pa = padding
-    pt = padding-top
-    pb = padding-bottom
-    pl = padding-left
-    pr = padding-right
-
-    ma = margin
-    mt = margin-top
-    mb = margin-bottom
-    ml = margin-left
-    mr = margin-right
 
 ## How to use it
 
