@@ -1,6 +1,6 @@
 {
   "name": "postcss-spacing",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Postcss plugin to add spacing properties as shortcuts ",
   "main": "index.js",
   "scripts": {
