@@ -1,8 +1,8 @@
 # PostCSS Spacing
 
-PostCSS plugin to easier control all padding and margin in your project. The original idea of having a global padding and margin setup was created by [Jens Nilsson](https://github.com/jensjns) when he created it as classes in [stylus](https://learnboost.github.io/stylus/). 
+PostCSS plugin for simpler control of all paddings and margins in your project. The original idea of having a global padding and margin setup was created by [Jens Nilsson](https://github.com/jensjns) when he created it as classes in [stylus](https://learnboost.github.io/stylus/). 
 
-This plugin uses the same idea but implements it as custom CSS properties. You basically have a shorted version of all paddings and margins and define what each size will correspond to. 
+This plugin uses the same idea but implements it as custom CSS properties. You basically have a shortened version of all paddings and margins properties and define what each size will correspond to. 
 
 Its much easier to understand in code:
 
