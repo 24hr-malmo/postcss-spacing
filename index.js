@@ -1,6 +1,6 @@
 import * as postcss from 'postcss';
 
-export default postcss.plugin('postcss-reverse-props', (options = {}) => {
+export default postcss.plugin('postcss-spacing', (options = {}) => {
 
     var shortcuts = {
         pa: 'padding',
